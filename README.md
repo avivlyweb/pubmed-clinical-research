@@ -2,7 +2,7 @@
 
 **Advanced clinical research analysis for healthcare professionals and PhD researchers**
 
-[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/your-username/pubmed-clinical-research)
+[![Version](https://img.shields.io/badge/version-3.0.1-blue.svg)](https://github.com/avivlyweb/pubmed-clinical-research)
 [![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -10,7 +10,7 @@
 
 ### Install this extension
 ```bash
-gemini extensions install https://github.com/your-username/pubmed-clinical-research.git
+gemini extensions install https://github.com/avivlyweb/pubmed-clinical-research.git
 ```
 
 **That's it!** Your friend just runs this single command and gets everything.
@@ -85,6 +85,125 @@ pico_analysis("35412731", "What is the effectiveness of exercise therapy?")
 evidence_quality_assessment("35412731")
 ```
 
+## 🔧 **Installation & Setup**
+
+### **Quick Installation**
+```bash
+# Clone repository
+git clone https://github.com/avivlyweb/pubmed-clinical-research.git
+cd pubmed-clinical-research
+
+# Install Python dependencies
+pip install httpx biopython
+
+# Run the server
+python3 pubmed_server.py
+```
+
+### **System Requirements**
+- **Python 3.8+**
+- **Gemini CLI 1.0+**
+- **Internet connection** (for PubMed access)
+
+### **Python Dependencies**
+```bash
+pip install httpx biopython
+```
+
+### **Environment Variables (Optional)**
+```bash
+export ENTREZ_EMAIL="your-email@example.com"  # Recommended by NCBI
+export ENTREZ_API_KEY="your-api-key"          # Optional: higher rate limits
+```
+
+## 🔍 **Troubleshooting**
+
+### **Common Installation Issues**
+
+#### **1. "ModuleNotFoundError: No module named 'httpx'"**
+```bash
+# Solution: Install dependencies
+pip install httpx biopython
+
+# Or install with conda
+conda install -c conda-forge httpx biopython
+```
+
+#### **2. "Connection timeout" or "Network error"**
+```bash
+# Check internet connection
+ping pubmed.ncbi.nlm.nih.gov
+
+# Try with VPN if behind corporate firewall
+export HTTP_PROXY=http://proxy.example.com:8080
+export HTTPS_PROXY=https://proxy.example.com:8080
+```
+
+#### **3. "400 Bad Request" or "NCBI API error"**
+```bash
+# Set your email (NCBI requirement)
+export ENTREZ_EMAIL="your-email@example.com"
+
+# Get API key for higher rate limits
+# Visit: https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/
+export ENTREZ_API_KEY="your-api-key"
+```
+
+#### **4. "Permission denied" when running**
+```bash
+# Make executable (Unix/Linux/Mac)
+chmod +x pubmed_server.py
+
+# Or run with Python directly
+python3 pubmed_server.py
+```
+
+#### **5. No results found for queries**
+```bash
+# Test basic functionality
+python3 -c "
+import asyncio
+from pubmed_server import search_pubmed
+result = asyncio.run(search_pubmed('test', 1))
+print(result)
+"
+
+# Check NCBI service status
+curl "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=test&retmax=1&retmode=json"
+```
+
+### **Performance Tips**
+
+#### **Faster Searches**
+- Use specific terms instead of general ones
+- Limit `max_results` parameter
+- Consider using API key for higher rate limits
+
+#### **Better Results**
+- Use PubMed field tags: `cancer[Title]`, `Smith J[Author]`
+- Combine terms: `"machine learning" AND diabetes`
+- Use date filters: `("2020/01/01"[PDAT] : "2023/12/31"[PDAT])`
+
+### **Getting Help**
+
+#### **Log Debug Information**
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+```
+
+#### **Test Individual Functions**
+```python
+import asyncio
+from pubmed_server import search_pubmed
+
+async def test():
+    result = await search_pubmed("cancer", 1)
+    print(result)
+
+asyncio.run(test())
+```
+
 ## 📈 **Quality Metrics**
 
 ### **Author Credibility Scores**
@@ -118,27 +237,27 @@ evidence_quality_assessment("35412731")
 - Learning objective alignment
 - Competency assessment support
 
-## 🔧 **Requirements**
-
-- **Python 3.8+**
-- **Gemini CLI 1.0+**
-- **Internet connection** (for PubMed access)
-
 ## 📦 **Installation Options**
 
 ### **Recommended: Gemini CLI Extension**
 ```bash
-gemini extensions install https://github.com/your-username/pubmed-clinical-research.git
+gemini extensions install https://github.com/avivlyweb/pubmed-clinical-research.git
 ```
 
 ### **Alternative: Manual Installation**
 ```bash
-git clone https://github.com/your-username/pubmed-clinical-research.git
+git clone https://github.com/avivlyweb/pubmed-clinical-research.git
 cd pubmed-clinical-research
 chmod +x quick_install.sh && ./quick_install.sh
 ```
 
 ## 🆕 **Version History**
+
+### **v3.0.1** - Bug Fixes & Enhanced Documentation
+- ✅ Fixed server startup dependencies check
+- ✅ Added comprehensive troubleshooting guide
+- ✅ Enhanced error handling and user feedback
+- ✅ Improved installation instructions
 
 ### **v3.0.0** - Research Impact Enhancement
 - ✅ Author credibility analysis
@@ -160,8 +279,8 @@ chmod +x quick_install.sh && ./quick_install.sh
 
 ## 📞 **Support & Feedback**
 
-- **Issues**: [GitHub Issues](https://github.com/your-username/pubmed-clinical-research/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-username/pubmed-clinical-research/discussions)
+- **Issues**: [GitHub Issues](https://github.com/avivlyweb/pubmed-clinical-research/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/avivlyweb/pubmed-clinical-research/discussions)
 - **Documentation**: Full documentation in repository
 
 ## 🏆 **Why This Extension?**

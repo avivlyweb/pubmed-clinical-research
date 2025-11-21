@@ -1256,10 +1256,53 @@ Enhanced article links ready for PMID {pmid}
     
     return formatted
 
+def check_dependencies():
+    """Check if all required dependencies are available."""
+    try:
+        import httpx
+        import Bio.Entrez
+        import asyncio
+        print("✅ All dependencies available")
+        return True
+    except ImportError as e:
+        print(f"❌ Missing dependency: {e}")
+        print("Please install: pip install httpx biopython")
+        return False
+
 def main():
     """Initialize and run the MCP server."""
-    logger.info("Starting Enhanced PubMed MCP server...")
-    mcp.run(transport='stdio')
+    print("🔬 PubMed Clinical Research MCP Server")
+    print("=" * 50)
+    
+    # Check dependencies first
+    if not check_dependencies():
+        print("❌ Cannot start server due to missing dependencies")
+        return 1
+    
+    # Set Entrez configuration
+    email = os.environ.get("ENTREZ_EMAIL", "pubmed-mcp@localhost")
+    api_key = os.environ.get("ENTREZ_API_KEY", "")
+    
+    Entrez.email = email
+    Entrez.api_key = api_key
+    
+    if api_key:
+        print("✅ Entrez API key configured")
+    else:
+        print("ℹ️  Using default Entrez settings (no API key)")
+    
+    print("📚 Server ready with 9 clinical research tools")
+    print("🚀 Starting MCP server...")
+    
+    try:
+        mcp.run(transport='stdio')
+        return 0
+    except KeyboardInterrupt:
+        print("\n👋 Server shutdown by user")
+        return 0
+    except Exception as e:
+        print(f"❌ Server error: {e}")
+        return 1
 
 if __name__ == "__main__":
-    main()
+    exit(main())
